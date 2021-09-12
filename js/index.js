@@ -1,7 +1,3 @@
-
-
-
-
 const camerasOBJ = [];
 const chargerAllCameras = () => {
   fetch("http://localhost:3000/api/cameras/")
@@ -12,7 +8,6 @@ const chargerAllCameras = () => {
     })
     .then((value) => {
       const cameras = value;
-      console.log(cameras);
       for (const cam of cameras) {
         objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
         camerasOBJ.push(objetCam);
@@ -32,7 +27,9 @@ const chargerAllCameras = () => {
 //Fonction pour créer un bloc camera qui contient des éléments pour chaque propriété de l'objet caméra
 createCamHTML = (objet, className, sectionName) => {
   let sectionCam = document.querySelector("." + sectionName);
-  const divCam = document.createElement("div");
+  const divCam = document.createElement("a");
+  divCam.setAttribute("href", "page_produit.html"); 
+  CreateLinkProduct(objet._id,divCam);
   divCam.classList.add(className);
   sectionCam.appendChild(divCam);
   let arrayProperty = Object.getOwnPropertyNames(objet);
@@ -61,6 +58,8 @@ createElementCameraHTML = (objet, className, param) => {
         }
       }).then((value) => {
         const imageUrl = URL.createObjectURL(value);
+        Image.setAttribute("width", "270");
+        Image.setAttribute("height", "270");
         Image.src = imageUrl;
       })
   }
@@ -68,13 +67,14 @@ createElementCameraHTML = (objet, className, param) => {
 }
 chargerAllCameras();
 
+//Création du lien de destination lors du clic sur un produit
 
-const camera1 = new Camera([123, 1], "123123", "name_cam1", 350000, "c'est une caméra", "urlquelconque");
-camerasOBJ.push(camera1);
-
-
-
-
+CreateLinkProduct =(idProduct,element)=>{
+  element.addEventListener('click',()=>{
+    localStorage.setItem('idProduct', idProduct);
+  }
+  )
+}
 
 
 

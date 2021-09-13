@@ -8,10 +8,12 @@ const chargerAllCameras = () => {
     })
     .then((value) => {
       const cameras = value;
+      let numberCam=0;
       for (const cam of cameras) {
         objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
         camerasOBJ.push(objetCam);
-        createCamHTML(objetCam, "camera", "affichage");
+        numberCam++;
+        createCamHTML(objetCam, "camera", "affichage",numberCam);
 
       }
     })
@@ -25,16 +27,17 @@ const chargerAllCameras = () => {
 }
 
 //Fonction pour créer un bloc camera qui contient des éléments pour chaque propriété de l'objet caméra
-createCamHTML = (objet, className, sectionName) => {
+createCamHTML = (objet, className, sectionName,numberCam) => {
   let sectionCam = document.querySelector("." + sectionName);
-  const divCam = document.createElement("a");
+  let divCam = document.createElement("a");
+  sectionCam.appendChild(divCam);
   divCam.setAttribute("href", "page_produit.html"); 
   CreateLinkProduct(objet._id,divCam);
   divCam.classList.add(className);
-  sectionCam.appendChild(divCam);
+
   let arrayProperty = Object.getOwnPropertyNames(objet);
   for (propertyName of arrayProperty) {
-    createElementCameraHTML(objet, className, propertyName);
+    createElementCameraHTML(objet, className+":nth-child("+numberCam+")", propertyName);
   }
 
 }
@@ -65,16 +68,23 @@ createElementCameraHTML = (objet, className, param) => {
   }
 
 }
-chargerAllCameras();
-
 //Création du lien de destination lors du clic sur un produit
-
 CreateLinkProduct =(idProduct,element)=>{
   element.addEventListener('click',()=>{
+    localStorage.removeItem('idProduct');
     localStorage.setItem('idProduct', idProduct);
+
   }
   )
 }
+
+
+
+chargerAllCameras();
+
+
+
+
 
 
 

@@ -6,7 +6,6 @@ class Camera{
         this.price=price;
         this.description=description;
         this.imageUrl=imageUrl;
-
     }
 
 }

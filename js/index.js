@@ -13,7 +13,7 @@ const chargerAllCameras = () => {
         objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
         camerasOBJ.push(objetCam);
         numberCam++;
-        createCamHTML(objetCam, "camera", "affichage",numberCam);
+        createCamHTML(objetCam, "camera", "liste_produits",numberCam);
 
       }
     })
@@ -37,14 +37,14 @@ createCamHTML = (objet, className, sectionName,numberCam) => {
 
   let arrayProperty = Object.getOwnPropertyNames(objet);
   for (propertyName of arrayProperty) {
-    createElementCameraHTML(objet, className+":nth-child("+numberCam+")", propertyName);
+    createElementCameraHTML(objet, className, propertyName,numberCam);
   }
 
 }
 
 //Fonction pour créer un élément d'un bloc, cette fonction sera ensuite contenue dans la fonction createCameraHTML(qui elle crée le bloc camera)
-createElementCameraHTML = (objet, className, param) => {
-  let divCam = document.querySelector("." + className);
+createElementCameraHTML = (objet, className, param,numberCam) => {
+  let divCam = document.querySelector("." + className+":nth-child("+numberCam+")");
   let divElem = document.createElement("div");
   divElem.classList.add(className + "__" + param);
   divCam.appendChild(divElem);

@@ -3,7 +3,6 @@ var idProduct = localStorage.getItem('idProduct');
 const chargerProduct = () => {
   fetch("http://localhost:3000/api/cameras/" + idProduct.toString())
     .then((res) => {
-      console.log("http://localhost:3000/api/cameras/" + idProduct.toString());
       if (res.ok) {
         return res.json();
       }
@@ -12,7 +11,7 @@ const chargerProduct = () => {
       const cam = value;
       console.log(cam);
       let objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
-      createCamHTML(objetCam, "camera", "produit");
+      createCamHTML(objetCam, "camera", "panier");
       localStorage.setItem("objectSelected", JSON.stringify(objetCam));
 
     })
@@ -27,11 +26,7 @@ const chargerProduct = () => {
 
 //crée le bloc camera 
 createCamHTML = (objet, className, sectionName) => {
-
-  let sectionCam = document.createElement("section");
-  let body = document.querySelector("body");
-  sectionCam.classList.add(sectionName);
-  body.appendChild(sectionCam);
+  let sectionCam = document.querySelector(".produit");
   const divCam = document.createElement("div");
   divCam.classList.add(className);
   sectionCam.appendChild(divCam);

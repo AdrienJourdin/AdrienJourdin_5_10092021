@@ -8,7 +8,6 @@ class Panier {
     addToCart = (camera) => {
         //Si le produit est deja dans le panier on augmente sa quantité de 1
         if (this.listeId.includes(camera._id)) {
-
             let indexCam = this.listeId.indexOf(camera._id);
             this.numberOfProduct[indexCam]=this.numberOfProduct[indexCam]+1;
         }
@@ -30,7 +29,6 @@ class Panier {
             }
             //Si le nombre de produit est inférieur ou égale à 1 on retire le produit du panier totalement
             else {
-                console.log('bonjour');
                 this.listeId.splice(indexToRemove, 1 );
                 this.listePrice.splice(indexToRemove, 1 );
                 this.numberOfProduct.splice(indexToRemove, 1 );

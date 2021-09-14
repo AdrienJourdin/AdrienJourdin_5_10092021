@@ -9,11 +9,10 @@ const chargerProduct = () => {
     })
     .then((value) => {
       const cam = value;
-      console.log(cam);
       let objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
-      createCamHTML(objetCam, "camera", "panier");
+      afficherProduits(cam, "liste_produits", 1, 'page_produit');
       localStorage.setItem("objectSelected", JSON.stringify(objetCam));
-
+      createMenuDeroulantOption(objetCam);
     })
     .catch((err) => {
       alert(err);
@@ -24,51 +23,12 @@ const chargerProduct = () => {
     );
 }
 
-//crée le bloc camera 
-createCamHTML = (objet, className, sectionName) => {
-  let sectionCam = document.querySelector(".produit");
-  const divCam = document.createElement("div");
-  divCam.classList.add(className);
-  sectionCam.appendChild(divCam);
-  let arrayProperty = Object.getOwnPropertyNames(objet);
-  for (propertyName of arrayProperty) {
-    createElementCameraHTML(objet, className, propertyName);
-  }
-
-}
-
-//Fonction pour créer un élément d'un bloc, cette fonction sera ensuite contenue dans la fonction createCameraHTML(qui elle crée le bloc camera)
-createElementCameraHTML = (objet, className, param) => {
-  let divCam = document.querySelector("." + className);
-  let divElem = document.createElement("div");
-  divElem.classList.add(className + "__" + param);
-  divCam.appendChild(divElem);
-  if (param != "imageUrl") {
-    divElem.innerText = objet[param];
-  }
-  else {
-    let Image = document.createElement("img");
-    divElem.appendChild(Image);
-    fetch(objet[param])
-      .then((res) => {
-        if (res.ok) {
-          return res.blob();
-        }
-      }).then((value) => {
-        const imageUrl = URL.createObjectURL(value);
-        Image.setAttribute("width", "270");
-        Image.setAttribute("height", "270");
-        Image.src = imageUrl;
-      })
-  }
-
-}
 
 //appel de la fonction pour charger le produit sélectionné précédemment
 chargerProduct();
 
 
-//Creation de la div panier
+//Creation du bouton ajout au panier
 createAjoutAuPanier = () => {
   let body = document.querySelector("body");
   let ajoutPanier = document.createElement('a');
@@ -89,6 +49,31 @@ createAjoutAuPanier = () => {
     localStorage.setItem('panier', JSON.stringify(panier2));
   }
   )
+}
+
+//Modifier l'affichage des options lentilles pour en faire un menu déroulant
+createMenuDeroulantOption=(objet)=>{
+  let listeOptions=objet.lense;
+  let lensesLabel=document.createElement("label");
+  lensesLabel.setAttribute("for","lense-select");
+  lensesLabel.innerText="Choississez une lentille";
+  let lensesElem=document.querySelector(".camera__lenses");
+  lensesElem.innerText="";
+  let select=document.createElement("select");
+  select.setAttribute("id","lense_select");
+  lensesElem.appendChild(select);
+  for(let option of listeOptions){
+    let optionHTML=document.createElement("option");
+    optionHTML.setAttribute("value",option);
+    optionHTML.innerText=option;
+    select.appendChild(optionHTML);
+  }
+  selectionLense();
+}
+
+//Fonction qui permet de stocker l'option choisie par l'utilisateur
+selectionLense=()=>{
+
 }
 
 createRetirerDuPanier = () => {
@@ -128,6 +113,7 @@ createViderLePanier = () => {
   }
   )
 }
+
 
 createAjoutAuPanier();
 createRetirerDuPanier();

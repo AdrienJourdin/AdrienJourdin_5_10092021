@@ -1,30 +1,33 @@
 afficherProduits = (objet, sectionName, numberCam, type) => {
     createCamHTML(objet, "camera", sectionName, numberCam, type);
 }
-
+console.log(JSON.stringify({ product: [1, 2, 3] }));
 //Crée un bloc cam avec un lien vers la page voulue
 createCamHTML = (objet, className, sectionName, numberCam, type) => {
     let sectionCam = document.querySelector("." + sectionName);
-    let divcam;
-    switch(type){
+    let divCam;
+    switch (type) {
         case 'accueil':
-        divCam = document.createElement("a");
-        divCam.setAttribute("href", "page_produit.html");
-        CreateLinkProduct(objet._id, divCam);
-        break;
+            divCam = document.createElement("a");
+            divCam.setAttribute("href", "page_produit.html");
+            CreateLinkProduct(objet._id, divCam);
+
+            break;
 
         case 'page_produit':
-        divCam = document.createElement("div");
-        break;
+            divCam = document.createElement("div");
+
+            break;
 
         case 'panier':
-        divCam = document.createElement("a");
-        divCam.setAttribute("href", "page_produit.html");
-        CreateLinkProduct(objet._id, divCam);
-        break;
+            divCam = document.createElement("div");
+            //divCam.setAttribute("href", "page_produit.html");
+            //CreateLinkProduct(objet._id, divCam);
+
+            break;
 
         default:
-        divCam = document.createElement("div");
+            divCam = document.createElement("div");
     }
 
 
@@ -36,6 +39,11 @@ createCamHTML = (objet, className, sectionName, numberCam, type) => {
         createElementCameraHTML(objet, className, propertyName, numberCam);
     }
 
+    if (type = 'panier') {
+        createBoutonAjoutPanier(className, objet, numberCam);
+        createBoutonRetraitPanier(className, objet, numberCam);
+        createElementNumberOfProduct(className, objet, numberCam);
+    }
 }
 
 createElementCameraHTML = (objet, className, param, numberCam) => {
@@ -78,7 +86,85 @@ CreateLinkProduct = (idProduct, element) => {
     element.addEventListener('click', () => {
         localStorage.removeItem('idProduct');
         localStorage.setItem('idProduct', idProduct);
-
     }
     )
+}
+
+createBoutonAjoutPanier = (className, objet, numberCam) => {
+
+    let camchoosen = document.querySelector("." + className + ":nth-child(" + numberCam + ")");
+    let ajoutPanier = document.createElement('div');
+    ajoutPanier.classList.add(className + "__Ajout_Panier");
+    ajoutPanier.innerText = "Ajouter un exemplaire au panier";
+    camchoosen.appendChild(ajoutPanier);
+    let listProducts;
+    if (localStorage.getItem('listProducts') == null) {
+        listProducts = [];
+    } else {
+        listProducts = JSON.parse(localStorage.getItem('listProducts'));
+    }
+    listProducts.push(objet);
+    localStorage.setItem('listProducts', JSON.stringify(listProducts));
+    ajoutPanier.addEventListener('click', (e) => {
+        e.preventDefault;
+        e.stopPropagation;
+        let panier = JSON.parse(localStorage.getItem('panier'));
+        if (panier == null) {
+            panier = new Panier([], [], []);
+        }
+        let panier2 = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
+        panier2.addToCart(listProducts[numberCam - 1]);
+        localStorage.setItem('panier', JSON.stringify(panier2));
+    }
+    )
+}
+
+createBoutonRetraitPanier = (className, objet, numberCam) => {
+    let camchoosen = document.querySelector("." + className + ":nth-child(" + numberCam + ")");
+    let ajoutPanier = document.createElement('div');
+    ajoutPanier.classList.add(className + "__RetraitPanier");
+    ajoutPanier.innerText = "Retirer un exemplaire au panier";
+    camchoosen.appendChild(ajoutPanier);
+    listProducts = JSON.parse(localStorage.getItem('listProducts'));
+    ajoutPanier.addEventListener('click', (e) => {
+        e.preventDefault;
+        e.stopPropagation;
+        let panier = JSON.parse(localStorage.getItem('panier'));
+        if (panier == null) {
+            panier = new Panier([], [], []);
+        }
+        let panier2 = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
+        panier2.RemoveToCart(listProducts[numberCam - 1]);
+        localStorage.setItem('panier', JSON.stringify(panier2));
+    }
+    )
+}
+
+createBoutonViderPanier = () => {
+    let header = document.querySelector("header");
+    let viderPanier = document.createElement("div");
+    header.appendChild(viderPanier);
+    viderPanier.innerText="Vider le panier";
+    viderPanier.addEventListener('click', (e) => {
+        e.preventDefault;
+        e.stopPropagation;
+        localStorage.removeItem('panier');
+    })
+}
+
+//Crée une div dans le bloc camera qui affiche le nombre de cet exemplaire dans le panier
+createElementNumberOfProduct = (className, objet, numberCam) => {
+    console.log("." + className + ":nth-child(" + numberCam + ")");
+    let divCam = document.querySelector("." + className + ":nth-child(" + numberCam + ")");
+    let divElem = document.createElement("div");
+    divElem.classList.add(className + "__numberOfProduct");
+    divCam.appendChild(divElem);
+    let panier = JSON.parse(localStorage.getItem('panier'));
+    if (panier == null) {
+        panier = new Panier([], [], []);
+    }
+    let panier2 = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
+    let indexToDisplay = panier2.listeId.indexOf(objet._id);
+    divElem.innerText = "Nombre de produit : " + panier2.numberOfProduct[indexToDisplay];
+
 }

@@ -19,8 +19,8 @@ chargerPanier = () => {
                 const cam = value;
                 numberCam++;
                 let objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
-                afficherProduits(objetCam, "liste_produits", numberCam, 'panier');
 
+                afficherProduits(objetCam, "liste_produits", numberCam, 'panier');
             })
             .catch((err) => {
                 alert(err);
@@ -34,16 +34,8 @@ chargerPanier = () => {
 }
 
 
-//Ajoute le nombre de produit pour chaque Id différent
-createElementNumberOfProduct = (className, panier, objet, numberCam) => {
-    let divCam = document.querySelector("." + className + ":nth-child(" + numberCam + ")");
-    let divElem = document.createElement("div");
-    divElem.classList.add(className + "__numberOfProduct");
-    divCam.appendChild(divElem);
-    let indexToDisplay = panier.listeId.indexOf(objet._id);
-    divElem.innerText = "Nombre de produit : " + panier.numberOfProduct[indexToDisplay];
 
-}
+
 
 //fonction qui crée la liste des input du formulaire
 createFormulaire = () => {
@@ -71,6 +63,7 @@ createFormulaire = () => {
     }
 
 }
+
 //fonction qui crée le bouton pour envoyer le formulaire
 createBoutonEnvoi = () => {
     let sectionForm = document.querySelector(".formulaire");
@@ -97,6 +90,8 @@ verificationInformations = () => {
 
 }
 
+
+
 //fonction qui vient créer un objet contact avec les informations rentrées dans le formulaire
 //la fonction retourne un objet contact créé à partir des infos du formulaire
 createContactObject = (NameForm) => {
@@ -111,7 +106,6 @@ createContactObject = (NameForm) => {
 //Creation de la liste de produits contenus dans le panier
 createListeProduct = () => {
     let panierEnvoi = JSON.parse(localStorage.getItem('panier'));
-    console.log(panierEnvoi.listeId);
     return panierEnvoi.listeId;
 
 }
@@ -140,6 +134,7 @@ createEnvoiForm = (contact, listeOrder) => {
 
 }
 
+createBoutonViderPanier();
 createBoutonEnvoi();
 createFormulaire();
 chargerPanier();

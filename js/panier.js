@@ -40,8 +40,10 @@ class Panier {
     }
     calculatePrice = () => {
         let sum = 0;
+        let i=0;
         for (let price of this.listePrice) {
-            sum += price;
+            sum += price*this.numberOfProduct[i];
+            i++;
         }
         return sum;
     }

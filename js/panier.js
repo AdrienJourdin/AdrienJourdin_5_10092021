@@ -4,10 +4,11 @@ class Panier {
         this.listePrice = listePrice;
         this.numberOfProduct = numberOfProduct;
     }
-
+//Fonction pour ajouter un produit au panier
     addToCart = (camera) => {
         //Si le produit est deja dans le panier on augmente sa quantité de 1
         if (this.listeId.includes(camera._id)) {
+            console.log(camera._id);
             let indexCam = this.listeId.indexOf(camera._id);
             this.numberOfProduct[indexCam]=this.numberOfProduct[indexCam]+1;
         }
@@ -18,7 +19,8 @@ class Panier {
             this.numberOfProduct.push(1);
         }
     }
-
+    
+//Fonction pour supprimer un objet du panier
     RemoveToCart = (camera) => {
         
         let indexToRemove = this.listeId.indexOf(camera._id);
@@ -38,6 +40,8 @@ class Panier {
             alert("aucun produit de cette référence ne se trouve dans le panier")
         }
     }
+
+    //Fonction qui calcule le montant du panier
     calculatePrice = () => {
         let sum = 0;
         let i=0;

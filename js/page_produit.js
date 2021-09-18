@@ -1,7 +1,7 @@
-var idProduct = localStorage.getItem('idProduct');
+var idProduct = window.location.search.substr(1);
 
 const chargerProduct = () => {
-  fetch("http://localhost:3000/api/cameras/" + idProduct.toString())
+  fetch("http://localhost:3000/api/cameras/" + idProduct)
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -45,7 +45,6 @@ createAjoutAuPanier = () => {
     let camToAdd = JSON.parse(localStorage.getItem('objectSelected'));
     let panier2 = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
     panier2.addToCart(camToAdd);
-    console.log("panier2", panier2);
     localStorage.setItem('panier', JSON.stringify(panier2));
   }
   )
@@ -91,7 +90,6 @@ createRetirerDuPanier = () => {
     }
     let camToRemove = JSON.parse(localStorage.getItem('objectSelected'));
     let panier2 = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
-    console.log("panier2", panier2);
     panier2.RemoveToCart(camToRemove);
 
     localStorage.setItem('panier', JSON.stringify(panier2));

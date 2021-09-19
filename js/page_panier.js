@@ -101,7 +101,7 @@ createBoutonEnvoi = () => {
     boutonForm.innerText = "Envoyer la commande";
     let panierRecup = JSON.parse(localStorage.getItem('panier'));
     boutonForm.addEventListener('click', () => {
-        if (verificationInformations()&verificationPanier()) {
+        if (verificationInformations() & verificationPanier()) {
             let form = {
                 "contact": {
                     firstName: document.getElementById("firstName").value,
@@ -149,26 +149,46 @@ createBoutonEnvoi = () => {
 //fonction qui va venir vérifier les informations avant d'envoyer le formulaire
 verificationInformations = () => {
     let listeForm = ['firstName', 'lastName', 'adress', 'city', 'email'];
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const adress = document.getElementById("adress").value;
-    const city = document.getElementById("city").value;
-    const email = document.getElementById("email").value;
-    valideEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    if (valideEmail.test(email)&city!=null&firstName!=null&lastName!=null&adress!=null) {
+    const valideEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const regexChiffres=/[0-9]/
+    let objetForm = new Object();
+    let objetValidation = new Object();
+    for (info of listeForm) {
+        objetForm[info] = document.getElementById(info).value;
+        console.log(objetForm[info]);
+        switch (info) {
+            case 'email':
+                
+                if(valideEmail.test(objetForm[info])==false|objetForm[info].length<1){
+                    objetValidation[info] = false;
+                }else{
+                    objetValidation[info] = true;
+                }
+                break;
+            default:
+
+                if (regexChiffres.test(objetForm[info]) | objetForm[info].length<1) {
+                    objetValidation[info] = false;
+                    alert(info+" incorrect");
+                } else {
+                    objetValidation[info] = true;
+                }
+        }
+    }
+
+    if ( objetValidation['email']& objetValidation['firstName'] & objetValidation['lastName'] & objetValidation['adress'] & objetValidation['city']) {
         return true;
     } else {
-        alert("Informations Incorrectes");
         return false;
     }
 }
 
 //Fonction qui permet de vérifier si le panier n'est pas vide
-verificationPanier=()=>{
-    if(localStorage.getItem('panier')==null){
+verificationPanier = () => {
+    if (localStorage.getItem('panier') == null) {
         alert("Panier vide");
         return false;
-    }else{
+    } else {
         return true;
     }
 }

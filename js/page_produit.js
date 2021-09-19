@@ -1,7 +1,7 @@
 var idProduct = window.location.search.substr(1);
 
 const chargerProduct = () => {
-  fetch("http://localhost:3000/api/cameras/" + idProduct)
+  fetch("https://orinoco-oc.herokuapp.com/api/cameras/" + idProduct)
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -9,7 +9,7 @@ const chargerProduct = () => {
     })
     .then((value) => {
       const cam = value;
-      let objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
+      const objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl);
       afficherProduits(cam, "liste_produits", 1, 'page_produit');
       localStorage.setItem("objectSelected", JSON.stringify(objetCam));
       createMenuDeroulantOption(objetCam);
@@ -30,11 +30,11 @@ chargerProduct();
 
 //Creation du bouton ajout au panier
 createAjoutAuPanier = () => {
-  let body = document.querySelector("body");
-  let ajoutPanier = document.createElement('a');
-  body.classList.add("Ajout_Panier");
+  const sectionProduits = document.querySelector(".liste_produits");
+  let ajoutPanier = document.createElement('div');
+  ajoutPanier.classList.add("Ajout_Panier");
   ajoutPanier.innerText = "Ajout au panier";
-  body.appendChild(ajoutPanier);
+  sectionProduits.appendChild(ajoutPanier);
   ajoutPanier.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -42,45 +42,26 @@ createAjoutAuPanier = () => {
     if (panier == null) {
       panier = new Panier([], [], []);
     }
-    let camToAdd = JSON.parse(localStorage.getItem('objectSelected'));
-    let panier2 = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
-    panier2.addToCart(camToAdd);
-    localStorage.setItem('panier', JSON.stringify(panier2));
+    const camToAdd = JSON.parse(localStorage.getItem('objectSelected'));
+    let objetPanier = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
+    objetPanier.addToCart(camToAdd);
+    localStorage.setItem('panier', JSON.stringify(objetPanier));
   }
   )
 }
 
 //Modifier l'affichage des options lentilles pour en faire un menu déroulant
-createMenuDeroulantOption=(objet)=>{
-  let listeOptions=objet.lense;
-  let lensesLabel=document.createElement("label");
-  lensesLabel.setAttribute("for","lense-select");
-  lensesLabel.innerText="Choississez une lentille";
-  let lensesElem=document.querySelector(".camera__lenses");
-  lensesElem.innerText="";
-  let select=document.createElement("select");
-  select.setAttribute("id","lense_select");
-  lensesElem.appendChild(select);
-  for(let option of listeOptions){
-    let optionHTML=document.createElement("option");
-    optionHTML.setAttribute("value",option);
-    optionHTML.innerText=option;
-    select.appendChild(optionHTML);
-  }
-  selectionLense();
-}
+
 
 //Fonction qui permet de stocker l'option choisie par l'utilisateur
-selectionLense=()=>{
 
-}
 
 createRetirerDuPanier = () => {
-  let body = document.querySelector("body");
-  let retraitPanier = document.createElement('a');
-  body.classList.add("Retrait_Panier");
+  const sectionProduits = document.querySelector(".liste_produits");
+  const retraitPanier = document.createElement('div');
+  retraitPanier.classList.add("Retrait_Panier");
   retraitPanier.innerText = "Retirer du panier";
-  body.appendChild(retraitPanier);
+  sectionProduits.appendChild(retraitPanier);
   retraitPanier.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -88,30 +69,46 @@ createRetirerDuPanier = () => {
     if (panier == null) {
       panier = new Panier([], [], []);
     }
-    let camToRemove = JSON.parse(localStorage.getItem('objectSelected'));
-    let panier2 = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
-    panier2.RemoveToCart(camToRemove);
-
-    localStorage.setItem('panier', JSON.stringify(panier2));
+    const camToRemove = JSON.parse(localStorage.getItem('objectSelected'));
+    const objetPanier = new Panier(panier.listeId, panier.listePrice, panier.numberOfProduct);
+    objetPanier.RemoveToCart(camToRemove);
+    localStorage.setItem('panier', JSON.stringify(objetPanier));
   }
   )
 }
 
 createViderLePanier = () => {
-  let body = document.querySelector("body");
-  let viderPanier = document.createElement('a');
-  body.classList.add("Vider_Panier");
+  const header = document.querySelector("header");
+  const viderPanier = document.createElement('div');
+  viderPanier.classList.add("Vider_Panier");
   viderPanier.innerText = "Vider le panier";
-  body.appendChild(viderPanier);
+  header.appendChild(viderPanier);
   viderPanier.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     localStorage.removeItem('panier');
-    panier2 = new Panier([], [], []);
+    objetPanier = new Panier([], [], []);
   }
   )
 }
 
+createMenuDeroulantOption=(objet)=>{
+  const listeOptions=objet.lense;
+  const lensesLabel=document.createElement("label");
+  lensesLabel.setAttribute("for","lense-select");
+  lensesLabel.innerText="Choississez une lentille";
+  const lensesElem=document.querySelector(".camera__lenses");
+  lensesElem.innerText="";
+  const select=document.createElement("select");
+  select.setAttribute("id","lense_select");
+  lensesElem.appendChild(select);
+  for(let option of listeOptions){
+    const optionHTML=document.createElement("option");
+    optionHTML.setAttribute("value",option);
+    optionHTML.innerText=option;
+    select.appendChild(optionHTML);
+  }
+}
 
 createAjoutAuPanier();
 createRetirerDuPanier();

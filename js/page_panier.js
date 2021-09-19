@@ -1,4 +1,5 @@
 //fonction qui affiche toutes les produits situés dans le panier
+
 chargerPanier = () => {
     let = numberCam = 0;
     let panierRecup = JSON.parse(localStorage.getItem('panier'));
@@ -38,11 +39,23 @@ chargerPanier = () => {
 
 //Fonction qui affiche le prix
 affichageduPrix = () => {
-    let panierRecup = JSON.parse(localStorage.getItem('panier'));
-    panier = new Panier(panierRecup.listeId, panierRecup.listePrice, panierRecup.numberOfProduct);
-    let affichagePanier = document.createElement("div");
-    affichagePanier.innerText = "Total : " + panier.calculatePrice();
-    document.querySelector(".liste_produits").appendChild(affichagePanier);
+    const panierRecup = JSON.parse(localStorage.getItem('panier'));
+    if (panierRecup == null) {
+        panier = new Panier([], [], [])
+    }
+    else {
+        panier = new Panier(panierRecup.listeId, panierRecup.listePrice, panierRecup.numberOfProduct);
+    }
+    const affichagePrix = document.createElement("div");
+    let prixPanier;
+    if (panier.calculatePrice() == '0') {
+        prixPanier = 0;
+    } else {
+        prixPanier = parseFloat(panier.calculatePrice()) / 100;
+    }
+    affichagePrix.innerText = "Total : " + prixPanier.toString() + " €";
+    affichagePrix.classList.add("Prix");
+    document.querySelector(".liste_produits").appendChild(affichagePrix);
 
 }
 
@@ -61,6 +74,7 @@ createFormulaire = () => {
         formulaire.appendChild(inputInfo);
         inputInfo.setAttribute("type", "text");
         inputInfo.classList.add("formulaire__" + info);
+        inputInfo.setAttribute("required", true);
         if (info == 'email') {
             inputInfo.setAttribute("type", "email");
         } else {
@@ -87,98 +101,79 @@ createBoutonEnvoi = () => {
     boutonForm.innerText = "Envoyer la commande";
     let panierRecup = JSON.parse(localStorage.getItem('panier'));
     boutonForm.addEventListener('click', () => {
-        let form = {
-            "contact": {
-                firstName: document.getElementById("firstName").value,
-                lastName: document.getElementById("lastName").value,
-                address: document.getElementById("adress").value,
-                city: document.getElementById("city").value,
-                email: document.getElementById("email").value,
-            },
-            products: panierRecup.listeId
-        };
-        (async () => {
-            const envoiForm = fetch("https://orinoco-oc.herokuapp.com/api/cameras/order", {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/JSON',
-                    'Content-Type': 'application/JSON'
+        if (verificationInformations()&verificationPanier()) {
+            let form = {
+                "contact": {
+                    firstName: document.getElementById("firstName").value,
+                    lastName: document.getElementById("lastName").value,
+                    address: document.getElementById("adress").value,
+                    city: document.getElementById("city").value,
+                    email: document.getElementById("email").value,
                 },
-                body: JSON.stringify(form),
-            }).then((response) => {
-                if (response.ok) {
-                    return response.json();
-                  }
-            }).then((data) => {
-                let panierRecup = JSON.parse(localStorage.getItem('panier'));
-                panierCalculatePrice = new Panier(panierRecup.listeId, panierRecup.listePrice, panierRecup.numberOfProduct);
-                localStorage.setItem('order', JSON.stringify(data));
-                localStorage.setItem('totalPrice', JSON.stringify(panierCalculatePrice.calculatePrice()));
-                localStorage.removeItem('panier');
-                document.location.href="page_confirmation.html";
-            });
-        })();
-        //createEnvoiForm(createContactObject("formulaire"), createListeProduct());
-        /*         if (verificationInformations()) {
-        
-                    createEnvoiForm(createContactObject("formulaire"), createListeProduct());
-                }
-                else {
-                    alert("informations incorrectes");
-                }*/
+                products: panierRecup.listeId
+            };
+            (async () => {
+                const envoiForm = fetch("https://orinoco-oc.herokuapp.com/api/cameras/order", {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/JSON',
+                        'Content-Type': 'application/JSON'
+                    },
+                    body: JSON.stringify(form),
+                }).then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then((data) => {
+                    let panierRecup = JSON.parse(localStorage.getItem('panier'));
+                    panierCalculatePrice = new Panier(panierRecup.listeId, panierRecup.listePrice, panierRecup.numberOfProduct);
+                    localStorage.setItem('order', JSON.stringify(data));
+                    localStorage.setItem('totalPrice', JSON.stringify(panierCalculatePrice.calculatePrice()));
+
+                    if (localStorage.getItem('panier') != null) {
+                        localStorage.removeItem('panier');
+                        document.location.href = "page_confirmation.html";
+
+                    } else {
+                        alert("Erreur lors de l'envoi de la commande (Problème Web-service)");
+                    }
+                });
+            })();
+        } else {
+            alert("Commande non envoyée");
+        }
     }
     )
 }
 
 //fonction qui va venir vérifier les informations avant d'envoyer le formulaire
 verificationInformations = () => {
-
-}
-
-
-
-//fonction qui vient créer un objet contact avec les informations rentrées dans le formulaire
-//la fonction retourne un objet contact créé à partir des infos du formulaire
-createContactObject = (NameForm) => {
     let listeForm = ['firstName', 'lastName', 'adress', 'city', 'email'];
-    let listeValue = [];
-    for (let info of listeForm) {
-        listeValue.push(document.querySelector("." + NameForm + "__" + info).value);
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const adress = document.getElementById("adress").value;
+    const city = document.getElementById("city").value;
+    const email = document.getElementById("email").value;
+    valideEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (valideEmail.test(email)&city!=null&firstName!=null&lastName!=null&adress!=null) {
+        return true;
+    } else {
+        alert("Informations Incorrectes");
+        return false;
     }
-    let contactEnvoye = new Contact(listeValue[0], listeValue[1], listeValue[2], listeValue[3], listeValue[4]);
-    return contactEnvoye;
 }
 
-//Creation de la liste de produits contenus dans le panier (liste qui sera envoyé lors de l'appel du web service POST)
-createListeProduct = () => {
-    let panierEnvoi = JSON.parse(localStorage.getItem('panier'));
-    return panierEnvoi.listeId;
-
-}
-
-//fonction qui appelle le webservice post pour envoyer le contact et la liste de produits
-createEnvoiForm = (contact, listeOrder) => {
-    let formToPost = new Form(contact, listeOrder);
-    fetch('http://localhost:3000/api/cameras/order', {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formToPost)
+//Fonction qui permet de vérifier si le panier n'est pas vide
+verificationPanier=()=>{
+    if(localStorage.getItem('panier')==null){
+        alert("Panier vide");
+        return false;
+    }else{
+        return true;
     }
-    )
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-        })
-        .then((value) => {
-            localStorage.setItem("numeroCommande", value.orderId);
-
-        })
-
 }
+
+
 
 
 //Appel de toutes les fonctions pour créer les élements de la page

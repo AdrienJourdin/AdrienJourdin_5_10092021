@@ -60,10 +60,27 @@ createElementCameraHTML = (objet, className, param, numberCam) => {
 
             break;
 
+            case 'price':
+            afficherPrix(objet,divElem,param);
+
+            break;
 
         default:
             divElem.innerText = objet[param];
 
+    }
+
+}
+
+afficherPrix = (objet,divElem,param) => {
+    const prix=objet[param];
+    let prixAffiche;
+    if (prix=='0'){
+        prixAffiche='0';
+    }else{
+        const prixCalcul=parseFloat(prix)/100;
+        prixAffiche="Prix :"+prixCalcul.toString()+" €";
+        divElem.innerText=prixAffiche;
     }
 
 }
@@ -171,6 +188,8 @@ createBoutonViderPanier = () => {
         localStorage.removeItem('panier');
     })
 }
+
+
 
 //Crée une div dans le bloc camera qui affiche le nombre de cet exemplaire dans le panier
 createElementNumberOfProduct = (className, objet, numberCam) => {

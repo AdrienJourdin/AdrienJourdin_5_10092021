@@ -1,6 +1,6 @@
 const camerasOBJ = [];
 const chargerAllCameras = () => {
-  fetch("http://localhost:3000/api/cameras/")
+  fetch("https://orinoco-oc.herokuapp.com/api/cameras/")
     .then((res) => {
       if (res.ok) {
         return res.json();

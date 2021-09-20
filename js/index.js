@@ -29,9 +29,9 @@ const chargerAllCameras = () => {
 
 
 
-
+createContenuHeader("accueil");
 chargerAllCameras();
-
+createContenuFooter();
 
 
 

@@ -109,7 +109,9 @@ createMenuDeroulantOption=(objet)=>{
     select.appendChild(optionHTML);
   }
 }
-
+createContenuHeader("page_produit");
 createAjoutAuPanier();
 createRetirerDuPanier();
 createViderLePanier();
+createContenuFooter();
+createContenuFooter();

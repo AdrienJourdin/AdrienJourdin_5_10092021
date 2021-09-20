@@ -11,7 +11,7 @@ chargerPanier = () => {
     }
     //Pour chaque Id dans la listeID du panier on appelle la fonction afficherproduit qui affiche les infos d'un produit
     for (let idCam of panier.listeId) {
-        fetch("http://localhost:3000/api/cameras/" + idCam.toString())
+        fetch("https://orinoco-oc.herokuapp.com/api/cameras/" + idCam.toString())
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -197,9 +197,10 @@ verificationPanier = () => {
 
 
 //Appel de toutes les fonctions pour créer les élements de la page
-
+createContenuHeader("page_panier");
 chargerPanier();
 affichageduPrix();
 createFormulaire();
 createBoutonEnvoi();
 createBoutonViderPanier();
+createContenuFooter();

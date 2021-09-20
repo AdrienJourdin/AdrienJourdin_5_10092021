@@ -10,7 +10,7 @@ createCamHTML = (objet, className, sectionName, numberCam, type) => {
     switch (type) {
         case 'accueil':
             divCam = document.createElement("a");
-            divCam.setAttribute("href", "page_produit.html?"+objet._id);
+            divCam.setAttribute("href", "page_produit.html?" + objet._id);
             break;
 
         case 'page_produit':
@@ -60,8 +60,8 @@ createElementCameraHTML = (objet, className, param, numberCam) => {
 
             break;
 
-            case 'price':
-            afficherPrix(objet,divElem,param);
+        case 'price':
+            afficherPrix(objet, divElem, param);
 
             break;
 
@@ -72,15 +72,15 @@ createElementCameraHTML = (objet, className, param, numberCam) => {
 
 }
 
-afficherPrix = (objet,divElem,param) => {
-    const prix=objet[param];
+afficherPrix = (objet, divElem, param) => {
+    const prix = objet[param];
     let prixAffiche;
-    if (prix=='0'){
-        prixAffiche='0';
-    }else{
-        const prixCalcul=parseFloat(prix)/100;
-        prixAffiche="Prix :"+prixCalcul.toString()+" €";
-        divElem.innerText=prixAffiche;
+    if (prix == '0') {
+        prixAffiche = '0';
+    } else {
+        const prixCalcul = parseFloat(prix) / 100;
+        prixAffiche = "Prix :" + prixCalcul.toString() + " €";
+        divElem.innerText = prixAffiche;
     }
 
 }
@@ -106,8 +106,8 @@ afficherImage = (objet, divElem, param) => {
 //Fonction qui remplace dans le localstorage l'idProduct par l'id du produit sur lequel on a cliqué
 CreateLinkProduct = (idProduct, element) => {
     element.addEventListener('click', () => {
-        let idProductInURL=idProduct;
-        divCam.setAttribute("href", "page_produit.html?Id="+idProduct);
+        let idProductInURL = idProduct;
+        divCam.setAttribute("href", "page_produit.html?Id=" + idProduct);
     }
     )
 
@@ -210,4 +210,97 @@ createElementNumberOfProduct = (className, objet, numberCam) => {
     let indexToDisplay = panier2.listeId.indexOf(objet._id);
     divElem.innerText = "Nombre de produit : " + panier2.numberOfProduct[indexToDisplay];
 
+}
+
+//fonction qui remplie la section footer
+createContenuFooter = () => {
+    const footer = document.querySelector("footer");
+    //Creation des liens
+    const liensFooter = document.createElement("div");
+    footer.appendChild(liensFooter);
+    const listeContenuFooter = ["contact", "informations", "conditionsVente", "conditionsLivraison"];
+
+    for (let nomElementFooter of listeContenuFooter) {
+        elemFoot = document.createElement("a");
+        elemFoot.classList.add("footer__" + nomElementFooter);
+        elemFoot.setAttribute("href", "#");
+        liensFooter.appendChild(elemFoot);
+
+    }
+
+    document.querySelector(".footer__contact").innerText = "Contact";
+    document.querySelector(".footer__informations").innerText = "Informations utiles";
+    document.querySelector(".footer__conditionsVente").innerText = "Nos conditions de vente";
+    document.querySelector(".footer__conditionsLivraison").innerText = "Nos conditions de livraison";
+
+    //Création de l'adresse
+    const adresseFooter = document.createElement("div");
+    footer.appendChild(adresseFooter);
+
+    const listeAdresseFooter = ["nom", "rue", "codePostal", "ville"];
+    for (let nomElementAdresse of listeAdresseFooter) {
+        elemAdre = document.createElement("div");
+        elemAdre.classList.add("adresse__" + nomElementAdresse);
+        adresseFooter.appendChild(elemAdre);
+    }
+    document.querySelector(".adresse__nom").innerText = "Orinoco";
+    document.querySelector(".adresse__rue").innerText = "27 rue Joseph Nicéphore Niépce";
+    document.querySelector(".adresse__codePostal").innerText = "71100";
+    document.querySelector(".adresse__ville").innerText = "71076";
+}
+
+//Creation du Header
+createContenuHeader = (page) => {
+    const header = document.querySelector("header");
+    let imageDiv;
+    let lienPanier;
+
+    //Propriété du logo
+    const logo = document.createElement("img");
+    logo.setAttribute("src", "logo.jpg");
+    logo.setAttribute("alt", "logo du site Orinoco");
+    logo.setAttribute("height", "75");
+    logo.setAttribute('width', '200');
+
+    //Creation des liens
+    switch (page) {
+        case 'accueil':
+            lienPanier=document.createElement("a");
+            lienPanier.setAttribute("href","page_panier.html");
+            lienPanier.innerText="Panier";
+            lienPanier.classList.add("header__lienPanier")
+            header.appendChild(lienPanier);
+            imageDiv = document.createElement("div");
+            header.appendChild(imageDiv);
+            imageDiv.appendChild(logo);
+
+            break;
+        
+        case 'page_produit':
+            lienPanier=document.createElement("a");
+            lienPanier.setAttribute("href","page_panier.html");
+            lienPanier.innerText="Panier";
+            lienPanier.classList.add("header__lienPanier")
+            header.appendChild(lienPanier);
+            imageDiv = document.createElement("a");
+            imageDiv.setAttribute("href","index.html");
+            header.appendChild(imageDiv);
+            imageDiv.appendChild(logo);
+        break;
+
+        case 'page_panier':
+            imageDiv = document.createElement("a");
+            imageDiv.setAttribute("href","index.html");
+            header.appendChild(imageDiv);
+            imageDiv.appendChild(logo);
+        break;
+
+        case 'page_confirmation':
+            imageDiv = document.createElement("a");
+            imageDiv.setAttribute("href","index.html");
+            header.appendChild(imageDiv);
+            imageDiv.appendChild(logo);
+        break;
+
+    }
 }

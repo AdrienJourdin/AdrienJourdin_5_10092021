@@ -178,15 +178,17 @@ createBoutonRetraitPanier = (className, objet, numberCam) => {
 
 //Fonction qui crée le bouton pour vider le panier
 createBoutonViderPanier = () => {
-    let header = document.querySelector("header");
-    let viderPanier = document.createElement("div");
-    header.appendChild(viderPanier);
-    viderPanier.innerText = "Vider le panier";
-    viderPanier.addEventListener('click', (e) => {
-        e.preventDefault;
-        e.stopPropagation;
-        localStorage.removeItem('panier');
-    })
+    if (localStorage.getItem('panier') != null) {
+        let header = document.querySelector("header");
+        let viderPanier = document.createElement("div");
+        header.appendChild(viderPanier);
+        viderPanier.innerText = "Vider le panier";
+        viderPanier.addEventListener('click', (e) => {
+            e.preventDefault;
+            e.stopPropagation;
+            localStorage.removeItem('panier');
+        })
+    }
 }
 
 
@@ -265,9 +267,9 @@ createContenuHeader = (page) => {
     //Creation des liens
     switch (page) {
         case 'accueil':
-            lienPanier=document.createElement("a");
-            lienPanier.setAttribute("href","page_panier.html");
-            lienPanier.innerText="Panier";
+            lienPanier = document.createElement("a");
+            lienPanier.setAttribute("href", "page_panier.html");
+            lienPanier.innerText = "Panier";
             lienPanier.classList.add("header__lienPanier")
             header.appendChild(lienPanier);
             imageDiv = document.createElement("div");
@@ -275,32 +277,32 @@ createContenuHeader = (page) => {
             imageDiv.appendChild(logo);
 
             break;
-        
+
         case 'page_produit':
-            lienPanier=document.createElement("a");
-            lienPanier.setAttribute("href","page_panier.html");
-            lienPanier.innerText="Panier";
+            lienPanier = document.createElement("a");
+            lienPanier.setAttribute("href", "page_panier.html");
+            lienPanier.innerText = "Panier";
             lienPanier.classList.add("header__lienPanier")
             header.appendChild(lienPanier);
             imageDiv = document.createElement("a");
-            imageDiv.setAttribute("href","index.html");
+            imageDiv.setAttribute("href", "index.html");
             header.appendChild(imageDiv);
             imageDiv.appendChild(logo);
-        break;
+            break;
 
         case 'page_panier':
             imageDiv = document.createElement("a");
-            imageDiv.setAttribute("href","index.html");
+            imageDiv.setAttribute("href", "index.html");
             header.appendChild(imageDiv);
             imageDiv.appendChild(logo);
-        break;
+            break;
 
         case 'page_confirmation':
             imageDiv = document.createElement("a");
-            imageDiv.setAttribute("href","index.html");
+            imageDiv.setAttribute("href", "index.html");
             header.appendChild(imageDiv);
             imageDiv.appendChild(logo);
-        break;
+            break;
 
     }
 }

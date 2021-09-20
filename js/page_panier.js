@@ -193,11 +193,21 @@ verificationPanier = () => {
     }
 }
 
-
+//Fonction qui affiche un message si le panier est vide
+afficherPanierVide=()=>{
+    if(localStorage.getItem('panier')==null){
+        const messagePanierVide=document.createElement("div");
+        messagePanierVide.classList.add("panierVide");
+        const listeProduits=document.querySelector(".liste_produits");
+        listeProduits.appendChild(messagePanierVide);
+        messagePanierVide.innerText="Votre panier est vide."
+    }
+}
 
 
 //Appel de toutes les fonctions pour créer les élements de la page
 createContenuHeader("page_panier");
+afficherPanierVide();
 chargerPanier();
 affichageduPrix();
 createFormulaire();

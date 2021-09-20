@@ -77,20 +77,6 @@ createRetirerDuPanier = () => {
   )
 }
 
-createViderLePanier = () => {
-  const header = document.querySelector("header");
-  const viderPanier = document.createElement('div');
-  viderPanier.classList.add("Vider_Panier");
-  viderPanier.innerText = "Vider le panier";
-  header.appendChild(viderPanier);
-  viderPanier.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    localStorage.removeItem('panier');
-    objetPanier = new Panier([], [], []);
-  }
-  )
-}
 
 createMenuDeroulantOption=(objet)=>{
   const listeOptions=objet.lense;
@@ -112,6 +98,6 @@ createMenuDeroulantOption=(objet)=>{
 createContenuHeader("page_produit");
 createAjoutAuPanier();
 createRetirerDuPanier();
-createViderLePanier();
+createBoutonViderPanier();
 createContenuFooter();
 createContenuFooter();

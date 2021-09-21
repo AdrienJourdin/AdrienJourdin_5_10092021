@@ -1,3 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;600;700;800;900&display=swap");
+@keyframes display_camera {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+.liste_produits {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  row-gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 0px 20px 0px;
+}
+.liste_produits .camera {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 2px #8F5CFE solid;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px grey;
+  max-width: 400px;
+}
+.liste_produits .camera__imageUrl {
+  padding-top: 0px;
+  order: 1;
+}
+.liste_produits .camera__name {
+  padding-top: 10px;
+  order: 2;
+  width: 80%;
+  margin: auto;
+}
+.liste_produits .camera__price {
+  padding: 10px 0px;
+  order: 6;
+  width: 80%;
+  margin: auto;
+}
+.liste_produits .camera__description {
+  padding-top: 5px;
+  order: 5;
+  width: 80%;
+  margin: auto;
+}
+.liste_produits .camera__lenses {
+  padding-top: 5px;
+  order: 4;
+  width: 80%;
+  margin: auto;
+}
+.liste_produits .camera___id {
+  display: none;
+}
+.liste_produits .camera__numberOfProduct {
+  order: 7;
+  padding: 5px 0px 10px 0px;
+  width: 80%;
+  margin: auto;
+}
+.liste_produits > a:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 200ms ease-in-out;
+}
 
+.Ajout_Panier,
+.Retrait_Panier {
+  text-align: center;
+  width: 140px;
+  height: 30px;
+  margin: auto;
+  border: 2px solid #8F5CFE;
+  border-radius: 10px;
+  padding: 5px;
+  order: 2;
+}
+.Ajout_Panier:hover,
+.Retrait_Panier:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: transform 200ms ease-in-out;
+}
+
+.camera:nth-child(1) {
+  animation: display_camera 300ms ease-in-out;
+  animation-fill-mode: both;
+}
+
+.camera:nth-child(2) {
+  animation: display_camera 300ms ease-in-out 300ms;
+  animation-fill-mode: both;
+}
+
+.camera:nth-child(3) {
+  animation: display_camera 300ms ease-in-out 600ms;
+  animation-fill-mode: both;
+}
+
+.camera:nth-child(4) {
+  animation: display_camera 300ms ease-in-out 900ms;
+  animation-fill-mode: both;
+}
+
+.camera:nth-child(5) {
+  animation: display_camera 300ms ease-in-out 1200ms;
+  animation-fill-mode: both;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #F3E9F1;
+  padding: 0px 10px;
+}
+.header__logo {
+  display: flex;
+  margin: auto;
+  width: 200px;
+}
+.header__logo > img {
+  width: 200px;
+  height: 80px;
+}
+.header__lienPanier {
+  display: flex;
+  margin: auto;
+  width: 150px;
+  justify-content: center;
+  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
+  border: solid 2px #8F5CFE;
+}
+.header__lienPanier:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 300ms ease-in-out;
+}
+.header__viderPanier {
+  width: 175px;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
+  border: solid 2px #8F5CFE;
+}
+.header__viderPanier:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 300ms ease-in-out;
+}
+
+footer {
+  width: 100%;
+  background-color: #8F5CFE;
+  color: white;
+  padding: 20px 50px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 20px 20px 0px 0px;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+footer a {
+  width: auto;
+  color: white;
+  padding: 2px 0px;
+}
+
+.panierVide {
+  padding: 200px 0px;
+  font-size: 1.5em;
+}
+
+.Prix {
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+.formulaire {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  margin: auto;
+}
+
+form {
+  margin: 10px 0px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input {
+  border: solid #E79B33 1px;
+  width: 50%;
+  border-radius: 5px;
+}
+
+.bouton_form {
+  width: 220px;
+  height: 35px;
+  margin: auto;
+  border-radius: 10px;
+  border: 2px #8F5CFE solid;
+  padding: 5px;
+}
+.bouton_form:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 300ms;
+}
+
+* {
+  box-sizing: border-box;
+  width: 100%;
+  font-family: Roboto;
+}
+
+html, body {
+  width: 100%;
+  margin: 0px;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+a:visited {
+  text-decoration: none;
+}
 
 /*# sourceMappingURL=style.css.map */

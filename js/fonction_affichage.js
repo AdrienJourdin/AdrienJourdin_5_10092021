@@ -1,28 +1,37 @@
 afficherProduits = (objet, sectionName, numberCam, type) => {
     createCamHTML(objet, "camera", sectionName, numberCam, type);
 }
-//Crée un bloc cam avec un lien vers la page voulue
+//Crée un bloc cam avec les informations à l'intérieur
 createCamHTML = (objet, className, sectionName, numberCam, type) => {
     let sectionCam = document.querySelector("." + sectionName);
     let divCam;
+    let arrayProperty;
 
     //On transforme chaque élement camera en lien vers la page_produit si besoin
+    //On configure la liste des infos que l'on veut afficher selon la page
     switch (type) {
         case 'accueil':
             divCam = document.createElement("a");
             divCam.setAttribute("href", "page_produit.html?" + objet._id);
+            divCam.classList.add(className);
+            sectionCam.appendChild(divCam);
+            arrayProperty=['name','imageUrl','price'];
             break;
 
         case 'page_produit':
+            arrayProperty = Object.getOwnPropertyNames(objet);
             divCam = document.createElement("div");
+            divCam.classList.add(className);
+            sectionCam.appendChild(divCam);
 
             break;
 
         case 'panier':
             divCam = document.createElement("div");
-            //divCam.setAttribute("href", "page_produit.html");
-            //CreateLinkProduct(objet._id, divCam);
-
+            arrayProperty=['name','imageUrl','price'];
+            divCam.classList.add(className);
+            sectionCam.appendChild(divCam);
+            createElementNumberOfProduct("camera", objet, numberCam);
             break;
 
         default:
@@ -30,11 +39,9 @@ createCamHTML = (objet, className, sectionName, numberCam, type) => {
     }
 
 
-    divCam.classList.add(className);
 
-    sectionCam.appendChild(divCam);
     //Appel d'une fonction pour afficher les infos d'une camera
-    let arrayProperty = Object.getOwnPropertyNames(objet);
+
     for (propertyName of arrayProperty) {
         createElementCameraHTML(objet, className, propertyName, numberCam);
     }
@@ -45,15 +52,14 @@ createCamHTML = (objet, className, sectionName, numberCam, type) => {
 //La fonction qui affiche une par une les infos d'une camera
 createElementCameraHTML = (objet, className, param, numberCam) => {
 
-    let divCam;
+    let divCam=document.querySelector("." + className);
     if (numberCam == 1) {
         divCam = document.querySelector("." + className);
     } else {
         divCam = document.querySelector("." + className + ":nth-child(" + numberCam + ")");
     }
     let divElem = document.createElement("div");
-    divElem.classList.add(className + "__" + param);
-    divCam.appendChild(divElem);
+    console.log(divCam);
     switch (param) {
         case 'imageUrl':
             afficherImage(objet, divElem, param);
@@ -69,7 +75,8 @@ createElementCameraHTML = (objet, className, param, numberCam) => {
             divElem.innerText = objet[param];
 
     }
-
+    divElem.classList.add(className + "__" + param);
+    divCam.appendChild(divElem);
 }
 
 afficherPrix = (objet, divElem, param) => {
@@ -181,6 +188,7 @@ createBoutonViderPanier = () => {
     if (localStorage.getItem('panier') != null) {
         let header = document.querySelector("header");
         let viderPanier = document.createElement("div");
+        viderPanier.classList.add("header__viderPanier")
         header.appendChild(viderPanier);
         viderPanier.innerText = "Vider le panier";
         viderPanier.addEventListener('click', (e) => {
@@ -196,6 +204,7 @@ createBoutonViderPanier = () => {
 //Crée une div dans le bloc camera qui affiche le nombre de cet exemplaire dans le panier
 createElementNumberOfProduct = (className, objet, numberCam) => {
     let divCam;
+
     if (numberCam == 1) {
         divCam = document.querySelector("." + className);
     } else {
@@ -248,12 +257,13 @@ createContenuFooter = () => {
     document.querySelector(".adresse__nom").innerText = "Orinoco";
     document.querySelector(".adresse__rue").innerText = "27 rue Joseph Nicéphore Niépce";
     document.querySelector(".adresse__codePostal").innerText = "71100";
-    document.querySelector(".adresse__ville").innerText = "71076";
+    document.querySelector(".adresse__ville").innerText = "Chalon-sur-Saône";
 }
 
 //Creation du Header
 createContenuHeader = (page) => {
     const header = document.querySelector("header");
+    header.classList.add("header");
     let imageDiv;
     let lienPanier;
 
@@ -273,6 +283,7 @@ createContenuHeader = (page) => {
             lienPanier.classList.add("header__lienPanier")
             header.appendChild(lienPanier);
             imageDiv = document.createElement("div");
+            imageDiv.classList.add("header__logo");
             header.appendChild(imageDiv);
             imageDiv.appendChild(logo);
 
@@ -286,6 +297,7 @@ createContenuHeader = (page) => {
             header.appendChild(lienPanier);
             imageDiv = document.createElement("a");
             imageDiv.setAttribute("href", "index.html");
+            imageDiv.classList.add("header__logo");
             header.appendChild(imageDiv);
             imageDiv.appendChild(logo);
             break;
@@ -293,6 +305,7 @@ createContenuHeader = (page) => {
         case 'page_panier':
             imageDiv = document.createElement("a");
             imageDiv.setAttribute("href", "index.html");
+            imageDiv.classList.add("header__logo");
             header.appendChild(imageDiv);
             imageDiv.appendChild(logo);
             break;
@@ -300,6 +313,7 @@ createContenuHeader = (page) => {
         case 'page_confirmation':
             imageDiv = document.createElement("a");
             imageDiv.setAttribute("href", "index.html");
+            imageDiv.classList.add("header__logo");
             header.appendChild(imageDiv);
             imageDiv.appendChild(logo);
             break;

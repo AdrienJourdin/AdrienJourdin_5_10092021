@@ -1,0 +1,43 @@
+.panierVide {
+    padding: 200px 0px;
+    font-size: 1.5em;
+}
+
+.Prix {
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+//Formulaire
+.formulaire {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: auto;
+}
+form {
+    margin: 10px 0px;
+}
+label {
+    display: block;
+    margin-top: 10px;
+}
+input {
+    border: solid $color-tertiary 1px;
+    width: 50%;
+    border-radius: 5px;
+}
+
+.bouton_form{
+    width:220px;
+    height:35px;
+    margin:auto;
+    border-radius: 10px;
+    border:2px $color-secondary solid;
+    padding:5px;
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.05);
+        transition:transform 300ms;
+    }
+}

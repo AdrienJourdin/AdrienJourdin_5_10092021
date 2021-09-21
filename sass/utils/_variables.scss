@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;600;700;800;900&display=swap");
+
+$color-primary: #F3E9F1;
+$color-secondary: #8F5CFE;
+$color-tertiary: #E79B33;
+
+
+$font-family: (
+    font-texte: Roboto,
+);
+
+$breakpoints: (
+    tablette: 450px,
+    desktop:1100px
+);
+
+$font-size: (
+    size-product:1em,
+    size-infos:1em,
+
+);
+
+$anim-cameras-time:300ms;

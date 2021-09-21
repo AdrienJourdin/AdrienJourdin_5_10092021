@@ -100,4 +100,3 @@ createAjoutAuPanier();
 createRetirerDuPanier();
 createBoutonViderPanier();
 createContenuFooter();
-createContenuFooter();

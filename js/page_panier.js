@@ -22,9 +22,7 @@ chargerPanier = () => {
                 numberCam++;
                 let objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl); //Creation d'un objet avec les infos chargées via le web service
                 afficherProduits(objetCam, "liste_produits", numberCam, 'panier');
-                //createBoutonAjoutPanier("camera", objetCam, numberCam);
-                //createBoutonRetraitPanier("camera", objetCam, numberCam);
-                createElementNumberOfProduct("camera", objetCam, numberCam);
+                
             })
             .catch((err) => {
                 alert(err);
@@ -70,6 +68,10 @@ createFormulaire = () => {
     sectionForm.appendChild(formulaire);
     //Pour chaques infos on créé un input couplé à un label
     for (let info of listeForm) {
+        let label = document.createElement("label");
+        label.innerText = info;
+        label.setAttribute("for", info);
+        formulaire.appendChild(label);
         let inputInfo = document.createElement("input");
         formulaire.appendChild(inputInfo);
         inputInfo.setAttribute("type", "text");
@@ -82,10 +84,7 @@ createFormulaire = () => {
         }
         inputInfo.setAttribute("id", info);
         inputInfo.setAttribute("name", "user_" + info);
-        let label = document.createElement("label");
-        label.innerText = " : " + info;
-        label.setAttribute("for", info);
-        formulaire.appendChild(label);
+
     }
 
 }

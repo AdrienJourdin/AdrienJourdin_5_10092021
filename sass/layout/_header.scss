@@ -1,0 +1,50 @@
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: $color-primary;
+    padding:0px 10px;
+    &__logo{
+        display: flex;
+        margin:auto;
+        width:200px;
+        >img{
+            width:200px;
+            height:80px;
+
+        }
+    }
+    &__lienPanier{
+        display: flex;
+        margin:auto;
+        width:150px;
+        justify-content: center;
+        padding:5px;
+        background-color: white;
+        border-radius:10px;
+        border: solid 2px $color-secondary;
+        &:hover{
+        cursor: pointer;
+        transform: scale(1.05);
+        transition:transform 300ms ease-in-out;
+        }
+    }
+
+    &__viderPanier{
+        width:175px;
+        display: flex;
+        margin:auto;
+        justify-content: center;
+        padding:5px;
+        background-color: white;
+        border-radius:10px;
+        border: solid 2px $color-secondary;
+        &:hover{
+        cursor: pointer;
+        transform: scale(1.05);
+        transition:transform 300ms ease-in-out;
+        }
+    }
+
+}

@@ -12,6 +12,7 @@
 .formulaire {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     width: 80%;
     margin: auto;
 }
@@ -25,16 +26,18 @@ label {
 input {
     border: solid $color-tertiary 1px;
     width: 50%;
+    min-width: 180px;
     border-radius: 5px;
 }
 
 .bouton_form{
     width:220px;
-    height:35px;
+    height:auto;
     margin:auto;
     border-radius: 10px;
     border:2px $color-secondary solid;
     padding:5px;
+    margin-left:10px;
     &:hover{
         cursor: pointer;
         transform: scale(1.05);

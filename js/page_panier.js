@@ -1,7 +1,7 @@
 //fonction qui affiche toutes les produits situés dans le panier
-
+let listeCameraPanier = [];
 chargerPanier = () => {
-    let = numberCam = 0;
+    let numberCam = 0;
     let panierRecup = JSON.parse(localStorage.getItem('panier'));
     if (panierRecup == null) {
         panier = new Panier([], [], [])
@@ -11,6 +11,7 @@ chargerPanier = () => {
     }
     //Pour chaque Id dans la listeID du panier on appelle la fonction afficherproduit qui affiche les infos d'un produit
     for (let idCam of panier.listeId) {
+        let objetCam;
         fetch("https://orinoco-oc.herokuapp.com/api/cameras/" + idCam.toString())
             .then((res) => {
                 if (res.ok) {
@@ -19,21 +20,30 @@ chargerPanier = () => {
             })
             .then((value) => {
                 const cam = value;
+                console.log(value);
                 numberCam++;
-                let objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl); //Creation d'un objet avec les infos chargées via le web service
-                afficherProduits(objetCam, "liste_produits", numberCam, 'panier');
+                objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl); //Creation d'un objet avec les infos chargées via le web service
+                listeCameraPanier.push(objetCam);
                 
+
             })
             .catch((err) => {
                 alert(err);
             })
             .finally(() => {
+
+                afficherProduits(objetCam, "liste_produits", numberCam, 'panier');
             }
+
+            
 
             );
 
     }
+    
 }
+
+
 
 //Fonction qui affiche le prix
 affichageduPrix = () => {
@@ -66,7 +76,7 @@ createFormulaire = () => {
     let formulaire = document.createElement("form");
     let sectionForm = document.querySelector(".formulaire");
     sectionForm.appendChild(formulaire);
-    //Pour chaques infos on créé un input couplé à un label
+    //Pour chaques infos on crée un input couplé à un label
     for (let info of listeForm) {
         let label = document.createElement("label");
         label.innerText = info;
@@ -91,7 +101,7 @@ createFormulaire = () => {
 
 
 
-//fonction qui crée le bouton pour envoyer le formulaire
+//fonction qui crée le bouton pour envoyer le formulaire + evenements associés à ce bouton
 createBoutonEnvoi = () => {
     let sectionForm = document.querySelector(".formulaire");
     let boutonForm = document.createElement("a");
@@ -138,8 +148,11 @@ createBoutonEnvoi = () => {
                     }
                 });
             })();
-        } else {
-            alert("Commande non envoyée");
+        } else if(verificationPanier()==false) {
+            alert("panier Vide");
+        }
+        else if(verificationInformations()==false) {
+            alert("informations du formulaire incorrectes");
         }
     }
     )
@@ -149,7 +162,7 @@ createBoutonEnvoi = () => {
 verificationInformations = () => {
     let listeForm = ['firstName', 'lastName', 'adress', 'city', 'email'];
     const valideEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const regexChiffres=/[0-9]/
+    const regexChiffres = /[0-9]/
     let objetForm = new Object();
     let objetValidation = new Object();
     for (info of listeForm) {
@@ -157,25 +170,33 @@ verificationInformations = () => {
         console.log(objetForm[info]);
         switch (info) {
             case 'email':
-                
-                if(valideEmail.test(objetForm[info])==false|objetForm[info].length<1){
+
+                if (valideEmail.test(objetForm[info]) == false | objetForm[info].length < 1) {
                     objetValidation[info] = false;
-                }else{
+                } else {
                     objetValidation[info] = true;
                 }
                 break;
-            default:
 
-                if (regexChiffres.test(objetForm[info]) | objetForm[info].length<1) {
+
+            case 'adress':
+                if (objetForm[info].length < 1) {
                     objetValidation[info] = false;
-                    alert(info+" incorrect");
+                } else {
+                    objetValidation[info] = true;
+                }
+                break;
+
+            default:
+                if (regexChiffres.test(objetForm[info]) | objetForm[info].length < 1) {
+                    objetValidation[info] = false;
                 } else {
                     objetValidation[info] = true;
                 }
         }
     }
 
-    if ( objetValidation['email']& objetValidation['firstName'] & objetValidation['lastName'] & objetValidation['adress'] & objetValidation['city']) {
+    if (objetValidation['email'] & objetValidation['firstName'] & objetValidation['lastName'] & objetValidation['adress'] & objetValidation['city']) {
         return true;
     } else {
         return false;
@@ -185,7 +206,6 @@ verificationInformations = () => {
 //Fonction qui permet de vérifier si le panier n'est pas vide
 verificationPanier = () => {
     if (localStorage.getItem('panier') == null) {
-        alert("Panier vide");
         return false;
     } else {
         return true;
@@ -193,15 +213,18 @@ verificationPanier = () => {
 }
 
 //Fonction qui affiche un message si le panier est vide
-afficherPanierVide=()=>{
-    if(localStorage.getItem('panier')==null){
-        const messagePanierVide=document.createElement("div");
+afficherPanierVide = () => {
+    if (verificationPanier()==false) {
+        const messagePanierVide = document.createElement("div");
         messagePanierVide.classList.add("panierVide");
-        const listeProduits=document.querySelector(".liste_produits");
+        const listeProduits = document.querySelector(".liste_produits");
         listeProduits.appendChild(messagePanierVide);
-        messagePanierVide.innerText="Votre panier est vide."
+        messagePanierVide.innerText = "Votre panier est vide."
     }
 }
+
+
+
 
 
 //Appel de toutes les fonctions pour créer les élements de la page

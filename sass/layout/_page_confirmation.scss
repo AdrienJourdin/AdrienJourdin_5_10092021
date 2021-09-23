@@ -1,0 +1,31 @@
+.infos{
+    &__remerciements{
+        text-align: center;
+        padding:10px 0px;
+
+    }
+   &__prix{
+    text-align: center;
+    padding:10px 0px;
+   }
+   
+   &__numéroCommande{
+    text-align: center;
+    padding:10px 0px;
+   }
+   &__retourAccueil{
+       width:auto;
+       flex-wrap: wrap;
+       border-radius: 10px;
+       max-width: 400px;
+       border:3px solid $color-secondary;
+       margin:100px auto;
+       padding:10px 5px;
+       text-align: center;
+       justify-items: center;
+       &:hover{
+           transform:scale(1.05);
+           transition:transform 300ms ease-in-out;
+       }
+   }
+}

@@ -8,10 +8,11 @@ afficherInfosConfirmation=()=>{
     const priceConfirmation=document.createElement("div");
     priceConfirmation.classList.add("infos__prix");
     const orderNumberConfirmation=document.createElement("div");
-    priceConfirmation.classList.add("infos__numéroCommande");
+    orderNumberConfirmation.classList.add("infos__numéroCommande");
     const lienAccueil=document.createElement("a");
     lienAccueil.innerText="Cliquez ici pour retourner à l'accueil";
     lienAccueil.setAttribute("href","index.html");
+    lienAccueil.classList.add("infos__retourAccueil");
 
     priceConfirmation.innerText="Numéro de commande : "+JSON.parse(localStorage.getItem('order')).orderId;
     const prix=JSON.parse(localStorage.getItem('totalPrice'));

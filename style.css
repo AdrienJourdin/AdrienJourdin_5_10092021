@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;600;700;800;900&display=swap");
 @keyframes display_camera {
   0% {
@@ -191,6 +192,7 @@ footer a {
 .formulaire {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   width: 80%;
   margin: auto;
 }
@@ -207,21 +209,51 @@ label {
 input {
   border: solid #E79B33 1px;
   width: 50%;
+  min-width: 180px;
   border-radius: 5px;
 }
 
 .bouton_form {
   width: 220px;
-  height: 35px;
+  height: auto;
   margin: auto;
   border-radius: 10px;
   border: 2px #8F5CFE solid;
   padding: 5px;
+  margin-left: 10px;
 }
 .bouton_form:hover {
   cursor: pointer;
   transform: scale(1.05);
   transition: transform 300ms;
+}
+
+.infos__remerciements {
+  text-align: center;
+  padding: 10px 0px;
+}
+.infos__prix {
+  text-align: center;
+  padding: 10px 0px;
+}
+.infos__numéroCommande {
+  text-align: center;
+  padding: 10px 0px;
+}
+.infos__retourAccueil {
+  width: auto;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  max-width: 400px;
+  border: 3px solid #8F5CFE;
+  margin: 100px auto;
+  padding: 10px 5px;
+  text-align: center;
+  justify-items: center;
+}
+.infos__retourAccueil:hover {
+  transform: scale(1.05);
+  transition: transform 300ms ease-in-out;
 }
 
 * {
@@ -234,6 +266,9 @@ html, body {
   width: 100%;
   margin: 0px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 a {

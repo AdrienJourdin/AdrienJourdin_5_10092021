@@ -20,7 +20,6 @@ chargerPanier = () => {
             })
             .then((value) => {
                 const cam = value;
-                console.log(value);
                 numberCam++;
                 objetCam = new Camera(cam.lenses, cam._id, cam.name, cam.price, cam.description, cam.imageUrl); //Creation d'un objet avec les infos chargées via le web service
                 listeCameraPanier.push(objetCam);
@@ -167,7 +166,6 @@ verificationInformations = () => {
     let objetValidation = new Object();
     for (info of listeForm) {
         objetForm[info] = document.getElementById(info).value;
-        console.log(objetForm[info]);
         switch (info) {
             case 'email':
 

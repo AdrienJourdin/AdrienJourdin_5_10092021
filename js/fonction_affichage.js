@@ -87,7 +87,9 @@ afficherPrix = (objet, divElem, param) => {
 afficherImage = (objet, divElem, param) => {
     let Image = document.createElement("img");
     divElem.appendChild(Image);
-    fetch(objet[param])
+    let URLImage=objet[param];
+    URLImage.replace('http','https');
+    fetch(URLImage)
         .then((res) => {
             if (res.ok) {
                 return res.blob();

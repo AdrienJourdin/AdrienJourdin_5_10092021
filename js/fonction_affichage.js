@@ -89,6 +89,7 @@ afficherImage = (objet, divElem, param) => {
     divElem.appendChild(Image);
     let URLImage=objet[param];
     URLImage.replace('http','https');
+    console.log(URLImage);
     fetch(URLImage)
         .then((res) => {
             if (res.ok) {
